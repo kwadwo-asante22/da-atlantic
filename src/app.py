@@ -100,9 +100,38 @@ def upload_file():
                 cursor.execute(query)
     
                 df = pd.read_csv(os.path.join(app['UPLOAD_FOLDER'], file.filename), names=COLUMNS)
-                df.columns = get_column_names_from_db_table(cursor, 'customers')
-    
-                df.to_sql(name='customers', conn=conn, if_exists='append', index=False)
+
+                # data associated with customers
+                customers_df = df[
+                    [
+                        "customer_id",
+                        "customer_firstname",
+                        "customer_lastname",
+                        "customer_street_address",
+                        "customer_state",
+                        "customer_zip_code",
+                        "purchase_status"
+                    ]
+                ]
+
+                # data associated with products
+                products_df = df[
+                    [
+                        "product_id",
+                        "product_name",
+                        "purchase_amount",
+                        "date_time"
+                    ]
+                ]
+
+                # get the columns from both tables
+                customers_df.columns = get_column_names_from_db_table(cursor, 'customers')
+                products_df.columns = get_column_names_from_db_table(cursor, 'products')
+
+                # insert data into the tables
+                customers_df.to_sql(name='customers', conn=conn, if_exists='append', index=False)
+                products_df.to_sql(name='products', conn=conn, if_exists='append', index=False)
+
     
                 conn.close()
                 flash('Table created')
