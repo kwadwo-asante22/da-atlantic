@@ -14,7 +14,7 @@ COLUMNS = [
     "date_time"
 ]
 
-QUERY = open("store/create_tables.sql").read()
+QUERY = open("query/query.sql").read()
 
 DATABASE = "sampleSQLite.db"
 
