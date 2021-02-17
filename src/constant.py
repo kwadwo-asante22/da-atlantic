@@ -14,7 +14,7 @@ COLUMNS = [
     "date_time"
 ]
 
-QUERY = open("query/query.sql").read()
+# QUERY = open("query.sql").read()
 
 DATABASE = "sampleSQLite.db"
 
@@ -22,4 +22,4 @@ TABLE_NAMES = ["customers", "products"]
 
 UPLOAD_FOLDER = '/uploaded_files'
 
-ALLOWED_EXTENSIONs = {'csv'}
+ALLOWED_EXTENSIONS = {'csv'}

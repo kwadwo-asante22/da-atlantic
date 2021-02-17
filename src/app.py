@@ -3,13 +3,17 @@
 import os
 import sqlite3 as sql
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request
 from flask.helpers import flash, url_for
 import pandas as pd
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from werkzeug.utils import redirect
 
-from src.constant import ALLOWED_EXTENSIONS, COLUMNS, QUERY, DATABASE, UPLOAD_FOLDER
+# from src.constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
+# from src.query import query
+
+from constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
+from query import query
 
 
 app = Flask(__name__)
@@ -59,9 +63,9 @@ def get_column_names_from_db_table(sql_cursor, table_name):
         column_names.append(name[1])
 
     return column_names
+    
 
-
-@app.route('/uploader', method=['GET', 'POST'])
+@app.route('/uploader', methods=['GET', 'POST'])
 def upload_file():
     """Upload files.
 
@@ -93,7 +97,7 @@ def upload_file():
             conn = connect_to_db(DATABASE)
             if conn is not None:
                 cursor = conn.cursor()
-                cursor.execute(QUERY)
+                cursor.execute(query)
     
                 df = pd.read_csv(os.path.join(app['UPLOAD_FOLDER'], file.filename), names=COLUMNS)
                 df.columns = get_column_names_from_db_table(cursor, 'customers')
@@ -104,7 +108,7 @@ def upload_file():
                 flash('Table created')
             else:
                 flash('connection to database failed')
-    
+
     return render_template('uploader.html')
 
 if __name__ == "__main__":
