@@ -9,11 +9,13 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 from werkzeug.utils import redirect
 
-# from src.constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
-# from src.query import query
+# Use this for production
+from src.constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
+from src.query import query
 
-from constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
-from query import query
+# used this import to test locally
+# from constant import ALLOWED_EXTENSIONS, COLUMNS, DATABASE, UPLOAD_FOLDER
+# from query import query
 
 
 app = Flask(__name__)
